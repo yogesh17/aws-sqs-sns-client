@@ -6,6 +6,14 @@ var fs       = require('fs');
 var app      = express();
 
 
+var aws_keyid = process.env.AWS_QCLIENT_KEYID
+var aws_secret = process.env.AWS_QCLIENT_SECRET
+var aws_region = process.env.AWS_QCLIENT_REGION || 'eu-west-2'
+var aws_sqs_endpoint = process.env.AWS_QCLIENT_SQS_ENDPOINT 
+var aws_sns_endpoint = process.env.AWS_QCLIENT_SNS_ENDPOINT
+
+
+
 // load aws config
 aws.config.loadFromPath(__dirname + '/config/aws-config.json')
 
@@ -54,7 +62,6 @@ var ui = {
     def_msghandle: ''
 }
 
-
 var snsController = require('./controllers/snsController')
 var sqsController = require('./controllers/sqsController')
 
@@ -63,6 +70,7 @@ sqsController(aws, app, ui);
 
 // server listen port - can be overriden by an environment variable
 var port = process.env.PORT || 3000
+
 
 // configure assets and views
 app.use('/assets', express.static(__dirname+'/public'))
